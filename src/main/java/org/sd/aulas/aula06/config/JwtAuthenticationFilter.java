@@ -4,7 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.sd.aulas.aula06.servicos.JwtTokenService;
+import org.sd.aulas.aula06.servicos.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +18,7 @@ import java.io.IOException;
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
     @Autowired
-    private JwtTokenService jwtTokenService;
+    private JwtService jwtService;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -31,7 +31,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         String token = recuperarToken(request);
 
         if (token != null) {
-            String username = jwtTokenService.validarToken(token);
+            String username = jwtService.validarToken(token);
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
             UsernamePasswordAuthenticationToken authentication =
